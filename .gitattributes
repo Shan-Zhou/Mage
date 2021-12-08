@@ -1,1 +1,3 @@
 *.cppm linguist-language=C++
+*.rgen linguist-language=GLSL
+Assets/Shaders/*.h linguist-language=GLSL
