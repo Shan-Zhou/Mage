@@ -95,10 +95,10 @@ There are too many things I'd like to try with this project. Here is an incomple
 
 The project is tested with
 
-* Microsoft Visual Studio Community 2022 (64-bit) Version 17.0.1
-* CMake 3.22.0 (3.21 works too. Lower versions don't recognize .cppm files and would be less convenient.)
+* Microsoft Visual Studio Community 2022 (64-bit) Version 17.1.0
+* CMake 3.23.0-rc2 (3.21 works too. Lower versions don't recognize .cppm files and would be less convenient.)
 * Windows 11
-* Vulkan 1.2.189
+* Vulkan 1.3.204
 * nVIDIA GeForce RTX 3070
 
 To build and test the renderer, just
@@ -163,7 +163,7 @@ https://github.com/vblanco20-1/vulkan-guide
 
 https://github.com/PacktPublishing/Learning-Vulkan
 
-https://www.khronos.org/registry/vulkan/specs/1.2-extensions/html/index.html
+https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/index.html
 
 ### Ray tracing
 
