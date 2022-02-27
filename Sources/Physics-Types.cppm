@@ -9,7 +9,7 @@ module;
 export module Physics:Types;
 
 void A() {
-	fmt::format("");
+	//fmt::format("");
 	std::string s;
 }
 
