@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 project(Mage
-	VERSION 0.1
+	VERSION 0.1.1
 	LANGUAGES CXX)
 
 include(CMake/CPM.cmake)
@@ -8,7 +8,7 @@ include(CMake/CPM.cmake)
 CPMAddPackage(
         NAME GLFW
         GITHUB_REPOSITORY glfw/glfw
-        GIT_TAG 3.3.4
+        GIT_TAG 3.3.6
         OPTIONS
             "GLFW_BUILD_TESTS OFF"
             "GLFW_BUILD_EXAMPLES OFF"
@@ -34,13 +34,13 @@ endif()
 CPMAddPackage(
         NAME fmt
         OPTIONS "CMAKE_CXX_STANDARD 20" #"FMT_MODULE ON"
-        GIT_TAG 8.0.1
+        GIT_TAG 8.1.1
         GITHUB_REPOSITORY fmtlib/fmt
 )
 
 CPMAddPackage(
         NAME ImGui
-        VERSION 1.85
+        VERSION 1.87
         URL https://github.com/ocornut/imgui/archive/refs/tags/v1.85.tar.gz
         DOWNLOAD_ONLY YES )
 if (ImGui_ADDED)
@@ -82,16 +82,17 @@ CPMAddPackage(
 CPMAddPackage(
         NAME VulkanMemoryAllocator
         GITHUB_REPOSITORY GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator
-        GIT_TAG e821342782fdb15a4bc54b9ccd7dfe68b19bae7f
+        #GIT_TAG e821342782fdb15a4bc54b9ccd7dfe68b19bae7f
+        GIT_TAG 4039e45a196c100adc49e0c66085a5c7b86420b0
 )
 
 CPMAddPackage(
         NAME volk
         GITHUB_REPOSITORY zeux/volk
-        GIT_TAG 1.2.190
+        GIT_TAG 1.3.204
 )
 
-find_package(Vulkan 1.2.189.1 REQUIRED)
+#find_package(Vulkan 1.2.189.1 REQUIRED)
 
 add_library(TinyObjLoader INTERFACE IMPORTED)
 target_include_directories(TinyObjLoader INTERFACE Includes)
@@ -113,7 +114,7 @@ add_executable(Mage)
 	target_link_libraries(Mage PRIVATE
 	        Eigen
 	        glfw
-	        Vulkan::Vulkan
+	        #Vulkan::Vulkan
             ImGui
 	        fmt::fmt
             glm::glm
