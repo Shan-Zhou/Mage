@@ -818,25 +818,28 @@ export namespace vk {
             return "nullFeature";
         }
     };
-	struct BufferDeviceAddressFeatures : public PhysicalDeviceFeature {
-		using cType = VkPhysicalDeviceBufferDeviceAddressFeatures;
-		cType m_feature{
-			.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES,
-			.pNext = nullptr,
-		};
-		[[nodiscard]] bool enabled() const override {
-			return m_feature.bufferDeviceAddress == VK_TRUE;
-		}
-		[[nodiscard]] void* ptr() override {
-			return static_cast<void*>(&m_feature);
-		}
-		[[nodiscard]] void*& pNext() override {
-			return m_feature.pNext;
-		}
-		[[nodiscard]] const char* name() override {
-			return "bufferDeviceAddress";
-		}
-	};
+    //
+    // promoted into the core in Vulkan 1.3
+    // 
+	//struct BufferDeviceAddressFeatures : public PhysicalDeviceFeature {
+	//	using cType = VkPhysicalDeviceBufferDeviceAddressFeatures;
+	//	cType m_feature{
+	//		.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES,
+	//		.pNext = nullptr,
+	//	};
+	//	[[nodiscard]] bool enabled() const override {
+	//		return m_feature.bufferDeviceAddress == VK_TRUE;
+	//	}
+	//	[[nodiscard]] void* ptr() override {
+	//		return static_cast<void*>(&m_feature);
+	//	}
+	//	[[nodiscard]] void*& pNext() override {
+	//		return m_feature.pNext;
+	//	}
+	//	[[nodiscard]] const char* name() override {
+	//		return "bufferDeviceAddress";
+	//	}
+	//};
 
     //
     // promoted into the core in Vulkan 1.3
