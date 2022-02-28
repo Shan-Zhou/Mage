@@ -841,28 +841,25 @@ export namespace vk {
 	//	}
 	//};
 
-    //
-    // promoted into the core in Vulkan 1.3
-    // 
-	//struct Synchronization2FeaturesKHR : public PhysicalDeviceFeature {
-	//	using cType = VkPhysicalDeviceSynchronization2FeaturesKHR;
-	//	cType m_feature{
-	//		.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES_KHR,
-	//		.pNext = nullptr,
-	//	};
-	//	[[nodiscard]] bool enabled() const override {
-	//		return m_feature.synchronization2 == VK_TRUE;
-	//	}
-	//	[[nodiscard]] void* ptr() override {
-	//		return static_cast<void*>(&m_feature);
-	//	}
-	//	[[nodiscard]] void*& pNext() override {
-	//		return m_feature.pNext;
-	//	}
-	//	[[nodiscard]] const char* name() override {
-	//		return "synchronization2KHR";
-	//	}
-	//};
+	struct Synchronization2Features : public PhysicalDeviceFeature {
+		using cType = VkPhysicalDeviceSynchronization2Features;
+		cType m_feature{
+			.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES,
+			.pNext = nullptr,
+		};
+		[[nodiscard]] bool enabled() const override {
+			return m_feature.synchronization2 == VK_TRUE;
+		}
+		[[nodiscard]] void* ptr() override {
+			return static_cast<void*>(&m_feature);
+		}
+		[[nodiscard]] void*& pNext() override {
+			return m_feature.pNext;
+		}
+		[[nodiscard]] const char* name() override {
+			return "synchronization2";
+		}
+	};
 
     struct RayTracingPipelineKHR : public PhysicalDeviceFeature {
         using cType = VkPhysicalDeviceRayTracingPipelineFeaturesKHR;
@@ -5506,8 +5503,8 @@ export namespace vk {
         RayTracingPipelineKHR rayTracingPipelineFeatureKHR;
         AccelerationStructureFeaturesKHR accelerationStructureFeatureKHR;
         MeshShaderFeaturesNV meshShaderFeatureNV;
+        Synchronization2Features synchronization2Feature;
         // promoted into the core
-        //Synchronization2FeaturesKHR synchronization2FeatureKHR;
         //BufferDeviceAddressFeatures bufferDeviceAddressFeature;
         auto validationFeaturesToEnable = std::array{ VK_VALIDATION_FEATURE_ENABLE_DEBUG_PRINTF_EXT };
         auto validationInfo = VkValidationFeaturesEXT{
@@ -5561,7 +5558,7 @@ export namespace vk {
                     &rayTracingPipelineFeatureKHR,
                     &accelerationStructureFeatureKHR,
                     &meshShaderFeatureNV,
-                    //&synchronization2FeatureKHR, // now promoted into the core
+                    &synchronization2Feature,
                 },
                 .optionalFeatures {
                 },
