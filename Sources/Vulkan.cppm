@@ -558,36 +558,36 @@ export namespace vk {
     //
 #pragma region Extension Structs
 #define VK_CHECK_SIZE(Typename) static_assert(sizeof(Typename) == sizeof(Vk##Typename), "Memory layout of " #Typename " is not matched with Vk" #Typename "!")
-    struct MemoryBarrier2KHR {
+    struct MemoryBarrier2 {
         VkStructureType             sType{VK_STRUCTURE_TYPE_MEMORY_BARRIER_2_KHR};
         const void*                 pNext{end_of_chain};
-        VkPipelineStageFlags2KHR    srcStageMask;
-        VkAccessFlags2KHR           srcAccessMask;
-        VkPipelineStageFlags2KHR    dstStageMask;
-        VkAccessFlags2KHR           dstAccessMask;
+        VkPipelineStageFlags2    srcStageMask;
+        VkAccessFlags2           srcAccessMask;
+        VkPipelineStageFlags2    dstStageMask;
+        VkAccessFlags2           dstAccessMask;
     };
-    VK_CHECK_SIZE(MemoryBarrier2KHR);
-    struct BufferMemoryBarrier2KHR {
+    VK_CHECK_SIZE(MemoryBarrier2);
+    struct BufferMemoryBarrier2 {
         VkStructureType             sType{VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER_2_KHR};
         const void*                 pNext{end_of_chain};
-        VkPipelineStageFlags2KHR    srcStageMask;
-        VkAccessFlags2KHR           srcAccessMask;
-        VkPipelineStageFlags2KHR    dstStageMask;
-        VkAccessFlags2KHR           dstAccessMask;
+        VkPipelineStageFlags2    srcStageMask;
+        VkAccessFlags2           srcAccessMask;
+        VkPipelineStageFlags2    dstStageMask;
+        VkAccessFlags2           dstAccessMask;
         uint32_t                    srcQueueFamilyIndex;
         uint32_t                    dstQueueFamilyIndex;
         VkBuffer                    buffer;
         VkDeviceSize                offset;
         VkDeviceSize                size;
     };
-    VK_CHECK_SIZE(BufferMemoryBarrier2KHR);
-    struct ImageMemoryBarrier2KHR {
+    VK_CHECK_SIZE(BufferMemoryBarrier2);
+    struct ImageMemoryBarrier2 {
         VkStructureType             sType{VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER_2_KHR};
         const void*                 pNext{end_of_chain};
-        VkPipelineStageFlags2KHR    srcStageMask;
-        VkAccessFlags2KHR           srcAccessMask;
-        VkPipelineStageFlags2KHR    dstStageMask;
-        VkAccessFlags2KHR           dstAccessMask;
+        VkPipelineStageFlags2    srcStageMask;
+        VkAccessFlags2           srcAccessMask;
+        VkPipelineStageFlags2    dstStageMask;
+        VkAccessFlags2           dstAccessMask;
         VkImageLayout               oldLayout;
         VkImageLayout               newLayout;
         uint32_t                    srcQueueFamilyIndex;
@@ -595,21 +595,21 @@ export namespace vk {
         VkImage                     image;
         VkImageSubresourceRange     subresourceRange;
     };
-    VK_CHECK_SIZE(ImageMemoryBarrier2KHR);
+    VK_CHECK_SIZE(ImageMemoryBarrier2);
     struct DependencyInfoKHR {
         VkStructureType                  sType{VK_STRUCTURE_TYPE_DEPENDENCY_INFO_KHR};
         const void*                      pNext{end_of_chain};
         VkDependencyFlags                dependencyFlags;
         uint32_t                         memoryBarrierCount;
-        const VkMemoryBarrier2KHR*       pMemoryBarriers;
+        const VkMemoryBarrier2*       pMemoryBarriers;
         uint32_t                         bufferMemoryBarrierCount;
-        const VkBufferMemoryBarrier2KHR* pBufferMemoryBarriers;
+        const VkBufferMemoryBarrier2* pBufferMemoryBarriers;
         uint32_t                         imageMemoryBarrierCount;
-        const VkImageMemoryBarrier2KHR*  pImageMemoryBarriers;
+        const VkImageMemoryBarrier2*  pImageMemoryBarriers;
     };
     VK_CHECK_SIZE(DependencyInfoKHR);
 
-	struct CopyImageInfo2KHR {
+	struct CopyImageInfo2 {
 		VkStructureType sType{VK_STRUCTURE_TYPE_COPY_IMAGE_INFO_2_KHR};
 		const void*     pNext{end_of_chain};
 		VkImage         srcImage;
@@ -617,11 +617,11 @@ export namespace vk {
 		VkImage         dstImage;
 		VkImageLayout   dstImageLayout;
 		uint32_t        regionCount;
-		const VkImageCopy2KHR* pRegions;
+		const VkImageCopy2* pRegions;
 	};
-    VK_CHECK_SIZE(CopyImageInfo2KHR);
+    VK_CHECK_SIZE(CopyImageInfo2);
 
-    struct BlitImageInfo2KHR {
+    struct BlitImageInfo2 {
         VkStructureType        sType{VK_STRUCTURE_TYPE_BLIT_IMAGE_INFO_2_KHR};
         const void*            pNext{end_of_chain};
         VkImage                srcImage;
@@ -629,10 +629,10 @@ export namespace vk {
         VkImage                dstImage;
         VkImageLayout          dstImageLayout;
         uint32_t               regionCount;
-        const VkImageBlit2KHR* pRegions;
+        const VkImageBlit2* pRegions;
         VkFilter               filter;
     };
-    VK_CHECK_SIZE(BlitImageInfo2KHR);
+    VK_CHECK_SIZE(BlitImageInfo2);
 
 #pragma endregion Extension Structs
 
@@ -685,7 +685,7 @@ export namespace vk {
 		const char* appName;
 		const char* engineName;
 		uint32_t    apiMajor{1};
-		uint32_t    apiMinor{2};
+		uint32_t    apiMinor{3};
 		NameList    requiredLayerNames;
 		NameList    requiredExtensionNames;
         void*       pRequiredFeatures{end_of_chain};
@@ -838,25 +838,28 @@ export namespace vk {
 		}
 	};
 
-	struct Synchronization2FeaturesKHR : public PhysicalDeviceFeature {
-		using cType = VkPhysicalDeviceSynchronization2FeaturesKHR;
-		cType m_feature{
-			.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES_KHR,
-			.pNext = nullptr,
-		};
-		[[nodiscard]] bool enabled() const override {
-			return m_feature.synchronization2 == VK_TRUE;
-		}
-		[[nodiscard]] void* ptr() override {
-			return static_cast<void*>(&m_feature);
-		}
-		[[nodiscard]] void*& pNext() override {
-			return m_feature.pNext;
-		}
-		[[nodiscard]] const char* name() override {
-			return "synchronization2KHR";
-		}
-	};
+    //
+    // promoted into the core in Vulkan 1.3
+    // 
+	//struct Synchronization2FeaturesKHR : public PhysicalDeviceFeature {
+	//	using cType = VkPhysicalDeviceSynchronization2FeaturesKHR;
+	//	cType m_feature{
+	//		.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES_KHR,
+	//		.pNext = nullptr,
+	//	};
+	//	[[nodiscard]] bool enabled() const override {
+	//		return m_feature.synchronization2 == VK_TRUE;
+	//	}
+	//	[[nodiscard]] void* ptr() override {
+	//		return static_cast<void*>(&m_feature);
+	//	}
+	//	[[nodiscard]] void*& pNext() override {
+	//		return m_feature.pNext;
+	//	}
+	//	[[nodiscard]] const char* name() override {
+	//		return "synchronization2KHR";
+	//	}
+	//};
 
     struct RayTracingPipelineKHR : public PhysicalDeviceFeature {
         using cType = VkPhysicalDeviceRayTracingPipelineFeaturesKHR;
@@ -1030,7 +1033,7 @@ export namespace vk {
         void Submit(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence) {
             vkQueueSubmit(m_queue, submitCount, pSubmits, fence) | VK_NO_ERROR;
         }
-        void Submit2KHR() {
+        void Submit2() {
 
         }
 	};
@@ -1133,12 +1136,12 @@ export namespace vk {
 	private:
 		VK_DECLARE(vkBuildAccelerationStructuresKHR);
         VK_DECLARE(vkCmdDrawMeshTasksNV);
-        VK_DECLARE(vkCmdPipelineBarrier2KHR);
+        VK_DECLARE(vkCmdPipelineBarrier2);
 	public:
 		void loadExtensionFunctions() {
 			VK_LOAD_DEVICE_EXT_FUNCTION(m_device, vkBuildAccelerationStructuresKHR);
             VK_LOAD_DEVICE_EXT_FUNCTION(m_device, vkCmdDrawMeshTasksNV);
-            VK_LOAD_DEVICE_EXT_FUNCTION(m_device, vkCmdPipelineBarrier2KHR);
+            VK_LOAD_DEVICE_EXT_FUNCTION(m_device, vkCmdPipelineBarrier2);
 		}
 		VkResult BuildAccelerationStructures (
 			VkDeferredOperationKHR								   deferredOperation,
@@ -1154,11 +1157,11 @@ export namespace vk {
 		const {
             m_vkCmdDrawMeshTasksNV(commandBuffer, taskCount, firstTask);
         }
-        void CmdPipelineBarrier2KHR(
+        void CmdPipelineBarrier2(
             VkCommandBuffer          commandBuffer,
             DependencyInfoKHR const& dependencyInfo)
         const {
-            m_vkCmdPipelineBarrier2KHR(commandBuffer, reinterpret_cast<const VkDependencyInfoKHR*>(&dependencyInfo));
+            m_vkCmdPipelineBarrier2(commandBuffer, reinterpret_cast<const VkDependencyInfoKHR*>(&dependencyInfo));
         }
 #endif
         
@@ -2500,23 +2503,23 @@ export namespace vk {
         const VkClearValue*    pClearValues{};
     };
     VK_CHECK_SIZE(RenderPassBeginInfo);
-    struct CopyBufferInfo2KHR {
+    struct CopyBufferInfo2 {
         VkStructureType         sType{VK_STRUCTURE_TYPE_COPY_BUFFER_INFO_2_KHR};
         const void*             pNext{end_of_chain};
         VkBuffer                srcBuffer;
         VkBuffer                dstBuffer;
         uint32_t                regionCount;
-        const VkBufferCopy2KHR* pRegions;
+        const VkBufferCopy2* pRegions;
     };
-    VK_CHECK_SIZE(CopyBufferInfo2KHR);
-    struct BufferCopy2KHR {
+    VK_CHECK_SIZE(CopyBufferInfo2);
+    struct BufferCopy2 {
         VkStructureType sType{VK_STRUCTURE_TYPE_BUFFER_COPY_2_KHR};
         const void*     pNext{end_of_chain};
         VkDeviceSize    srcOffset;
         VkDeviceSize    dstOffset;
         VkDeviceSize    size;
     };
-    VK_CHECK_SIZE(BufferCopy2KHR);
+    VK_CHECK_SIZE(BufferCopy2);
 
 	// TODO: reference counting?
     class CommandBufferArray;
@@ -2566,8 +2569,8 @@ export namespace vk {
 		void BindVertexBuffers(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* pBuffers, const DeviceSize* pOffsets) {
             vkCmdBindVertexBuffers(m_buffer, firstBinding, bindingCount, pBuffers, pOffsets);
 		}
-        void BlitImage2KHR(in_t<BlitImageInfo2KHR> info) {
-            vkCmdBlitImage2KHR(m_buffer, reinterpret_cast<const VkBlitImageInfo2KHR*>(&info));
+        void BlitImage2(in_t<BlitImageInfo2> info) {
+            vkCmdBlitImage2(m_buffer, reinterpret_cast<const VkBlitImageInfo2*>(&info));
         }
 
         void BuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos, const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos) {
@@ -2579,14 +2582,14 @@ export namespace vk {
         }
 
         template<Array T>
-            requires requires (T regions) { reinterpret_cast<const VkBufferCopy2KHR*>( regions.data() ); }
-        void CopyBuffer(CopyBufferInfo2KHR& copyBufferInfo, T regions) {
+            requires requires (T regions) { reinterpret_cast<const VkBufferCopy2*>( regions.data() ); }
+        void CopyBuffer(CopyBufferInfo2& copyBufferInfo, T regions) {
             copyBufferInfo.regionCount = static_cast<uint32_t>(regions.size());
-            copyBufferInfo.pRegions = reinterpret_cast<const VkBufferCopy2KHR*>(regions.data());
-            vkCmdCopyBuffer2KHR(m_buffer, reinterpret_cast<const VkCopyBufferInfo2KHR*>(&copyBufferInfo));
+            copyBufferInfo.pRegions = reinterpret_cast<const VkBufferCopy2*>(regions.data());
+            vkCmdCopyBuffer2(m_buffer, reinterpret_cast<const VkCopyBufferInfo2*>(&copyBufferInfo));
         }
-        void CopyImage2KHR(in_t<CopyImageInfo2KHR> info) {
-            vkCmdCopyImage2KHR(m_buffer, reinterpret_cast<const VkCopyImageInfo2KHR*>(&info));
+        void CopyImage2(in_t<CopyImageInfo2> info) {
+            vkCmdCopyImage2(m_buffer, reinterpret_cast<const VkCopyImageInfo2*>(&info));
         }
 		void Draw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance) {
             vkCmdDraw(m_buffer, vertexCount, instanceCount, firstVertex, firstInstance);
@@ -2603,58 +2606,58 @@ export namespace vk {
 
         void ExecuteCommandBuffers(in_t<CommandBufferArray> cmdBuffers);
 
-		void PipelineBarrier2KHR(in_t<DependencyInfoKHR> info) {
-			vkCmdPipelineBarrier2KHR(m_buffer, reinterpret_cast<const VkDependencyInfoKHR*>(&info));
+		void PipelineBarrier2(in_t<DependencyInfoKHR> info) {
+			vkCmdPipelineBarrier2(m_buffer, reinterpret_cast<const VkDependencyInfoKHR*>(&info));
 		}
 
         template<uint32_t numMB, uint32_t numBMB, uint32_t numIMB>
-        void PipelineBarrier2KHR(VkDependencyFlags              flags,
-            std::array<MemoryBarrier2KHR,       numMB>  const& memoryBarriers,
-            std::array<BufferMemoryBarrier2KHR, numBMB> const& bufferMemoryBarriers,
-            std::array<ImageMemoryBarrier2KHR,  numIMB> const& imageMemoryBarriers)
+        void PipelineBarrier2(VkDependencyFlags              flags,
+            std::array<MemoryBarrier2,       numMB>  const& memoryBarriers,
+            std::array<BufferMemoryBarrier2, numBMB> const& bufferMemoryBarriers,
+            std::array<ImageMemoryBarrier2,  numIMB> const& imageMemoryBarriers)
         {
             auto info = VkDependencyInfoKHR{
                 .sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO_KHR,
                 .dependencyFlags          = flags,
                 .memoryBarrierCount       = numMB,
-                .pMemoryBarriers          = reinterpret_cast<const VkMemoryBarrier2KHR*>(memoryBarriers.data()),
+                .pMemoryBarriers          = reinterpret_cast<const VkMemoryBarrier2*>(memoryBarriers.data()),
                 .bufferMemoryBarrierCount = numBMB,
-                .pBufferMemoryBarriers    = reinterpret_cast<const VkBufferMemoryBarrier2KHR*>(bufferMemoryBarriers.data()),
+                .pBufferMemoryBarriers    = reinterpret_cast<const VkBufferMemoryBarrier2*>(bufferMemoryBarriers.data()),
                 .imageMemoryBarrierCount  = numIMB,
-                .pImageMemoryBarriers     = reinterpret_cast<const VkImageMemoryBarrier2KHR*>(imageMemoryBarriers.data()),
+                .pImageMemoryBarriers     = reinterpret_cast<const VkImageMemoryBarrier2*>(imageMemoryBarriers.data()),
             };
-            vkCmdPipelineBarrier2KHR(m_buffer, &info);
+            vkCmdPipelineBarrier2(m_buffer, &info);
         }
 
         template<uint32_t numMB>
-        void PipelineMemoryBarrier2KHR(std::array<MemoryBarrier2KHR, numMB> const& memoryBarriers, VkDependencyFlags flags = 0) {
+        void PipelineMemoryBarrier2(std::array<MemoryBarrier2, numMB> const& memoryBarriers, VkDependencyFlags flags = 0) {
             auto info = VkDependencyInfoKHR{
                 .sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO_KHR,
                 .dependencyFlags          = flags,
                 .memoryBarrierCount       = numMB,
-                .pMemoryBarriers          = reinterpret_cast<const VkMemoryBarrier2KHR*>(memoryBarriers.data()),
+                .pMemoryBarriers          = reinterpret_cast<const VkMemoryBarrier2*>(memoryBarriers.data()),
             };
-            vkCmdPipelineBarrier2KHR(m_buffer, &info);
+            vkCmdPipelineBarrier2(m_buffer, &info);
         }
         template<uint32_t numBMB>
-        void PipelineBufferMemoryBarrier2KHR(std::array<BufferMemoryBarrier2KHR, numBMB> const& bufferMemoryBarriers, VkDependencyFlags flags = 0) {
+        void PipelineBufferMemoryBarrier2(std::array<BufferMemoryBarrier2, numBMB> const& bufferMemoryBarriers, VkDependencyFlags flags = 0) {
             auto info = VkDependencyInfoKHR{
                 .sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO_KHR,
                 .dependencyFlags          = flags,
                 .bufferMemoryBarrierCount = numBMB,
-                .pBufferMemoryBarriers    = reinterpret_cast<const VkBufferMemoryBarrier2KHR*>(bufferMemoryBarriers.data()),
+                .pBufferMemoryBarriers    = reinterpret_cast<const VkBufferMemoryBarrier2*>(bufferMemoryBarriers.data()),
             };
-            vkCmdPipelineBarrier2KHR(m_buffer, &info);
+            vkCmdPipelineBarrier2(m_buffer, &info);
         }
         template<uint32_t numIMB>
-        void PipelineImageMemoryBarrier2KHR(std::array<ImageMemoryBarrier2KHR, numIMB> const& imageMemoryBarriers, VkDependencyFlags flags = 0) {
+        void PipelineImageMemoryBarrier2(std::array<ImageMemoryBarrier2, numIMB> const& imageMemoryBarriers, VkDependencyFlags flags = 0) {
             auto info = VkDependencyInfoKHR{
                 .sType = VK_STRUCTURE_TYPE_DEPENDENCY_INFO_KHR,
                 .dependencyFlags          = flags,
                 .imageMemoryBarrierCount  = numIMB,
-                .pImageMemoryBarriers     = reinterpret_cast<const VkImageMemoryBarrier2KHR*>(imageMemoryBarriers.data()),
+                .pImageMemoryBarriers     = reinterpret_cast<const VkImageMemoryBarrier2*>(imageMemoryBarriers.data()),
             };
-            vkCmdPipelineBarrier2KHR(m_buffer, &info);
+            vkCmdPipelineBarrier2(m_buffer, &info);
         }
 
         void PushConstants(VkPipelineLayout layout, VkPushConstantRange pushConstantRange, const void* pValues) {
@@ -2756,7 +2759,7 @@ export namespace vk {
             vkQueueSubmit(queue, 1, &submitInfo, fence) | VK_NO_ERROR;
 		}
 
-        void SubmitToQueue2KHR(Queue queue, VkSubmitInfo2KHR& submitInfo, VkFence fence) {
+        void SubmitToQueue2(Queue queue, VkSubmitInfo2& submitInfo, VkFence fence) {
             std::vector commandBufferSubmitInfo(m_commandBuffers.size(), VkCommandBufferSubmitInfoKHR{.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_SUBMIT_INFO_KHR});
             for (auto i : iota(0uz, m_commandBuffers.size())) {
                 commandBufferSubmitInfo[i].commandBuffer = m_commandBuffers[i];
@@ -2764,7 +2767,7 @@ export namespace vk {
             submitInfo.sType                  = VK_STRUCTURE_TYPE_SUBMIT_INFO_2_KHR;
             submitInfo.commandBufferInfoCount = static_cast<uint32_t>(commandBufferSubmitInfo.size());
             submitInfo.pCommandBufferInfos    = commandBufferSubmitInfo.data();
-            vkQueueSubmit2KHR(queue, 1, &submitInfo, fence) | VK_NO_ERROR;
+            vkQueueSubmit2(queue, 1, &submitInfo, fence) | VK_NO_ERROR;
         }
 
         void SubmitToQueue(Queue queue, ptrdiff_t index, VkSubmitInfo& submitInfo, VkFence fence) {
@@ -3228,9 +3231,9 @@ export namespace vk {
         RecordCommands(cmdBuf);
         cmdBuf.EndRecording();
     
-        VkSubmitInfo2KHR submitInfo{};
+        VkSubmitInfo2 submitInfo{};
         Fence fence(cmdPool.device());
-        commandBuffers.SubmitToQueue2KHR(queue, submitInfo, fence);
+        commandBuffers.SubmitToQueue2(queue, submitInfo, fence);
         fence.Wait();
     }
 
@@ -3256,12 +3259,12 @@ export namespace vk {
         auto cmdBuf = context.commandBuffers[0];
         cmdBuf.BeginRecording(+CommandBufferUsageFlagBits::OneTimeSubmit);
         {
-            std::vector regions = { BufferCopy2KHR{
+            std::vector regions = { BufferCopy2{
                 .srcOffset = 0,
                 .dstOffset = 0,
                 .size = context.bufferSize,
             } };
-            CopyBufferInfo2KHR copyBufferInfo{
+            CopyBufferInfo2 copyBufferInfo{
                 .srcBuffer = context.stagingBuffer,
                 .dstBuffer = context.vertexBuffer,
             };
@@ -3269,8 +3272,8 @@ export namespace vk {
         }
         cmdBuf.EndRecording();
     
-        VkSubmitInfo2KHR submitInfo{};
-        context.commandBuffers.SubmitToQueue2KHR(context.queue, submitInfo, context.fence);
+        VkSubmitInfo2 submitInfo{};
+        context.commandBuffers.SubmitToQueue2(context.queue, submitInfo, context.fence);
         //context.fence.Wait();
     }
 
@@ -3488,34 +3491,34 @@ export namespace vk {
 			cmdBuf.BeginRecording(+CommandBufferUsageFlagBits::OneTimeSubmit);
 			{
 				std::vector regions = {
-                    BufferCopy2KHR{
+                    BufferCopy2{
 					    .srcOffset = 0,
 					    .dstOffset = vertexOffset,
 					    .size      = vertexBufferSize,
 				    },
-                    BufferCopy2KHR{
+                    BufferCopy2{
 					    .srcOffset = vertexBufferSize,
 					    .dstOffset = indexOffset,
 					    .size      = indexBufferSize,
 				    },
-                    BufferCopy2KHR{
+                    BufferCopy2{
 					    .srcOffset = vertexBufferSize + indexBufferSize,
 					    .dstOffset = vertexLocationOffset,
 					    .size      = vertexLocationBufferSize,
 				    },
-                    BufferCopy2KHR{
+                    BufferCopy2{
 					    .srcOffset = vertexBufferSize + indexBufferSize + vertexLocationBufferSize,
 					    .dstOffset = indexLocationOffset,
 					    .size      = indexLocationBufferSize,
 				    },
-                    //BufferCopy2KHR{
+                    //BufferCopy2{
 					//    .srcOffset = vertexBufferSize + indexBufferSize,
 					//    .dstOffset = normalOffset,
 					//    .size = normalBufferSize,
 				    //},
                 };
                 auto vertexBufferIndex = 0;
-				CopyBufferInfo2KHR copyBufferInfo{
+				CopyBufferInfo2 copyBufferInfo{
 					.srcBuffer = stagingBuffer,
 					.dstBuffer = m_vertexBuffers[vertexBufferIndex],
 				};
@@ -3523,9 +3526,9 @@ export namespace vk {
 			}
 			cmdBuf.EndRecording();
 
-			VkSubmitInfo2KHR submitInfo{};
+			VkSubmitInfo2 submitInfo{};
             Fence fence(m_device, FenceCreateFlagBits::Unsignaled);
-			commandBuffers.SubmitToQueue2KHR(transferQueue, submitInfo, fence);
+			commandBuffers.SubmitToQueue2(transferQueue, submitInfo, fence);
             fence.Wait();
 		}
 
@@ -3654,8 +3657,8 @@ export namespace vk {
             }
             cmdBuf.EndRecording();
             Fence fence(m_device, FenceCreateFlagBits::Unsignaled);
-            VkSubmitInfo2KHR submitInfo{ };
-            cmdBuffers.SubmitToQueue2KHR(raytracingQueue, submitInfo, fence);
+            VkSubmitInfo2 submitInfo{ };
+            cmdBuffers.SubmitToQueue2(raytracingQueue, submitInfo, fence);
             fence.Wait();
 		}
 
@@ -4245,12 +4248,12 @@ export namespace vk {
         auto cmdBuf = context.commandBuffers[0];
         cmdBuf.BeginRecording(+CommandBufferUsageFlagBits::OneTimeSubmit);
         {
-            std::vector regions = { BufferCopy2KHR{
+            std::vector regions = { BufferCopy2{
                 .srcOffset = 0,
                 .dstOffset = 0,
                 .size = context.bufferSize,
             } };
-            CopyBufferInfo2KHR copyBufferInfo{
+            CopyBufferInfo2 copyBufferInfo{
                 .srcBuffer = context.stagingBuffer,
                 .dstBuffer = context.vertexBuffer,
             };
@@ -4258,8 +4261,8 @@ export namespace vk {
         }
         cmdBuf.EndRecording();
     
-        VkSubmitInfo2KHR submitInfo{};
-        context.commandBuffers.SubmitToQueue2KHR(context.queue, submitInfo, context.fence);
+        VkSubmitInfo2 submitInfo{};
+        context.commandBuffers.SubmitToQueue2(context.queue, submitInfo, context.fence);
 
         return textureImage;
 		}
@@ -4288,7 +4291,7 @@ export namespace vk {
             const auto model_path         = asset_path / "Models";
             const auto texture_path       = asset_path / "Textures";
             /*
-            ** They might looks weird under non-English Windows.
+            ** The paths might look a little bit weird on non-English Windows.
             */
             LogWarning("Rasterization App Start...\n");
             LogWarning("----Assets  : {}\n", asset_path.string());
@@ -5048,8 +5051,8 @@ export namespace vk {
 	                    .layerCount = 1,
                     };
 
-                    cmdBuf.PipelineImageMemoryBarrier2KHR(std::array{
-                        ImageMemoryBarrier2KHR{
+                    cmdBuf.PipelineImageMemoryBarrier2(std::array{
+                        ImageMemoryBarrier2{
                             .srcStageMask     = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT_KHR,
                             .srcAccessMask    = VK_ACCESS_2_NONE_KHR,
                             .dstStageMask     = VK_PIPELINE_STAGE_2_RAY_TRACING_SHADER_BIT_KHR,
@@ -5097,8 +5100,8 @@ export namespace vk {
 
                     cmdBuf.TraceRaysKHR(sbtRegionRGen, sbtRegionMiss, sbtRegionHit, sbtRegionCallable, swapchain.extent().width, swapchain.extent().height, 1);
 
-                    cmdBuf.PipelineImageMemoryBarrier2KHR(std::array{
-                        ImageMemoryBarrier2KHR{
+                    cmdBuf.PipelineImageMemoryBarrier2(std::array{
+                        ImageMemoryBarrier2{
                             .srcStageMask     = VK_PIPELINE_STAGE_2_RAY_TRACING_SHADER_BIT_KHR,
                             .srcAccessMask    = VK_ACCESS_2_SHADER_WRITE_BIT_KHR,
                             .dstStageMask     = VK_PIPELINE_STAGE_2_BLIT_BIT_KHR,
@@ -5108,7 +5111,7 @@ export namespace vk {
                             .image            = rtImages[i],
                             .subresourceRange = subresourceRange,
                         },
-                        ImageMemoryBarrier2KHR{
+                        ImageMemoryBarrier2{
                             .srcStageMask     = VK_PIPELINE_STAGE_2_TOP_OF_PIPE_BIT_KHR,
                             .srcAccessMask    = VK_ACCESS_2_NONE_KHR,
                             .dstStageMask     = VK_PIPELINE_STAGE_2_BLIT_BIT_KHR,
@@ -5121,7 +5124,7 @@ export namespace vk {
                     });
 #if 1
                     auto copyRegions = std::array{
-                        VkImageCopy2KHR{
+                        VkImageCopy2{
                             .sType = VK_STRUCTURE_TYPE_IMAGE_COPY_2_KHR,
                             .srcSubresource = {
                                 .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -5139,7 +5142,7 @@ export namespace vk {
 	                        .dstOffset = { 0, 0, 0 },
 	                        .extent = Extent2Dto3D(swapchain.extent()), //{ .width = swapchain.extent().width, .height = swapchain.extent().height, .depth = 1 },
                         }};
-                    cmdBuf.CopyImage2KHR(CopyImageInfo2KHR{
+                    cmdBuf.CopyImage2(CopyImageInfo2{
                             .srcImage       = rtImages[i],
                             .srcImageLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
                             .dstImage       = swapchain.image(i),
@@ -5149,7 +5152,7 @@ export namespace vk {
                         });
 #endif
 #if 0
-                    auto region = VkImageBlit2KHR{
+                    auto region = VkImageBlit2{
                             .sType = VK_STRUCTURE_TYPE_IMAGE_BLIT_2_KHR,
                             .srcSubresource = {
                                 .aspectMask = VK_IMAGE_ASPECT_COLOR_BIT,
@@ -5172,7 +5175,7 @@ export namespace vk {
                                 {(int32_t)swapchain.extent().width, (int32_t)swapchain.extent().height, 1},
                             },
                     };
-                    cmdBuf.BlitImage2KHR(BlitImageInfo2KHR{
+                    cmdBuf.BlitImage2(BlitImageInfo2{
                             .srcImage = rtImages[i],
                             .srcImageLayout = VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
                             .dstImage = swapchain.image(i),
@@ -5183,8 +5186,8 @@ export namespace vk {
                         });
 #endif
 
-                    cmdBuf.PipelineImageMemoryBarrier2KHR(std::array{
-                        ImageMemoryBarrier2KHR{
+                    cmdBuf.PipelineImageMemoryBarrier2(std::array{
+                        ImageMemoryBarrier2{
                             .srcStageMask     = VK_PIPELINE_STAGE_2_BLIT_BIT_KHR,
                             .srcAccessMask    = VK_ACCESS_2_TRANSFER_WRITE_BIT_KHR,
                             .dstStageMask     = VK_PIPELINE_STAGE_2_BOTTOM_OF_PIPE_BIT_KHR,
@@ -5493,14 +5496,15 @@ export namespace vk {
     // #Entry_point_and_app_info
     //
 	void TestVulkan() {
-        InitVolkAndCheckVulkanVersion(/*minimum_major: */1, /*minimum_minor: */ 2);
+        InitVolkAndCheckVulkanVersion(/*minimum_major: */1, /*minimum_minor: */ 3);
 
 
 		// all in one create info
         RayTracingPipelineKHR rayTracingPipelineFeatureKHR;
         AccelerationStructureFeaturesKHR accelerationStructureFeatureKHR;
         MeshShaderFeaturesNV meshShaderFeatureNV;
-        Synchronization2FeaturesKHR synchronization2FeatureKHR;
+        // promoted into the core
+        //Synchronization2FeaturesKHR synchronization2FeatureKHR;
         //BufferDeviceAddressFeatures bufferDeviceAddressFeature;
         auto validationFeaturesToEnable = std::array{ VK_VALIDATION_FEATURE_ENABLE_DEBUG_PRINTF_EXT };
         auto validationInfo = VkValidationFeaturesEXT{
@@ -5518,7 +5522,7 @@ export namespace vk {
 				.appName	= "Vulkan Raytracing Renderer",
 				.engineName	= "UntitledEngine",
 				.apiMajor	= 1,
-				.apiMinor	= 2,
+				.apiMinor	= 3,
 				.requiredLayerNames = {
 					//"VK_LAYER_LUNARG_api_dump",
 					//"VK_LAYER_KHRONOS_validation", // enabled by ApplicationCreateInfo::enableValidationLayer()
@@ -5535,11 +5539,11 @@ export namespace vk {
 				},
 				.requiredExtensionNames {
                 // copy buffer:
-                    VK_KHR_COPY_COMMANDS_2_EXTENSION_NAME,
+                    //VK_KHR_COPY_COMMANDS_2_EXTENSION_NAME, // now promoted into the core
                 // mesh shader:
                     VK_NV_MESH_SHADER_EXTENSION_NAME,
 				// sync:
-					VK_KHR_SYNCHRONIZATION_2_EXTENSION_NAME,
+					//VK_KHR_SYNCHRONIZATION_2_EXTENSION_NAME, // now promoted into the core
 				// window presentation
 					VK_KHR_SWAPCHAIN_EXTENSION_NAME,
 				// ray tracing:
@@ -5554,7 +5558,7 @@ export namespace vk {
                     &rayTracingPipelineFeatureKHR,
                     &accelerationStructureFeatureKHR,
                     &meshShaderFeatureNV,
-                    &synchronization2FeatureKHR,
+                    //&synchronization2FeatureKHR, // now promoted into the core
                 },
                 .optionalFeatures {
                 },
